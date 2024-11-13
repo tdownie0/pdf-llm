@@ -1,0 +1,15 @@
+services:
+  transcript-processor:
+    build: .
+    volumes:
+      # Mount the entire huggingface cache directory instead of just the snapshots
+      - /.cache/huggingface/hub/models--MaziyarPanahi--Mistral-7B-Instruct-v0.3-GGUF:/app/model_cache
+      - ./data:/app/data
+    environment:
+      # Update the model path to point to the actual blob file
+      - MODEL_PATH=/app/model_cache/blobs/e241ecfd88517c9137220d5869ab461853ec80f27ec7241b7ba490e341e2e32f
+      - PYTHONUNBUFFERED=1
+    deploy:
+      resources:
+        limits:
+          memory: 4g
